@@ -18,3 +18,19 @@ class HTMLNode:
     def __repr__(self):
         return f"HTMLNode(tag={self.tag}, value={self.value}, children={self.children}, props={self.props})"
 
+
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props=None):
+        super().__init__(tag, value, None, props)
+
+
+    def to_html(self):
+        if self.value == None:
+            raise ValueError("LeafNode must have a value")
+        elif self.tag == None:
+            return str(self.value)
+        else:
+            formatted_prop = "".join(f" {key}=\"{value}\"" for key, value in self.props.items()) if self.props else ""
+            return f"<{self.tag}{formatted_prop}>{self.value}</{self.tag}>"
+
+            
