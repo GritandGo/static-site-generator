@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -65,3 +65,34 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode("p", None)
         with self.assertRaises(ValueError):
             node.to_html()
+
+
+class TestParentNode(unittest.TestCase):
+    def test_to_html_with_children(self):
+        child_node = LeafNode("span", "child")
+        parent_node = ParentNode("div", [child_node])
+        self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+
+    def test_to_html_with_grandchildren(self):
+            grandchild_node = LeafNode("b", "grandchild")
+            child_node = ParentNode("span", [grandchild_node])
+            parent_node = ParentNode("div", [child_node])
+            self.assertEqual(
+                parent_node.to_html(),
+                "<div><span><b>grandchild</b></span></div>",
+        )
+        
+
+    def test_to_html_mixed_children(self):
+        child_node1 = LeafNode("b", "bold")
+        child_node2 = LeafNode(None, "normal text")
+        child_nodes = [child_node1, child_node2]
+        parent_node = ParentNode("div", child_nodes)
+        self.assertEqual(parent_node.to_html(), "<div><b>bold</b>normal text</div>")
+
+
+    def test_to_html_no_children(self):
+        parent_node = ParentNode("div", [])
+        with self.assertRaises(ValueError, msg="Missing value"):
+            parent_node.to_html()
+

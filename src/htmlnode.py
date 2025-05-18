@@ -34,3 +34,22 @@ class LeafNode(HTMLNode):
             return f"<{self.tag}{formatted_prop}>{self.value}</{self.tag}>"
 
             
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props=None):
+        super().__init__(tag=tag, value=None, children=children, props=props)
+
+
+    def to_html(self):
+        if self.tag is None:
+            raise ValueError("Object must have a tag")
+        if not self.children:
+            raise ValueError("Missing value")
+        else:
+            html = f"<{self.tag}{self.props_to_html()}>"
+            for child in self.children:
+                child_html = child.to_html()
+                html += child_html
+
+            html += f"</{self.tag}>"
+            return html
+            
