@@ -53,6 +53,9 @@ def split_nodes_image(old_nodes):
         if remaining_text != "":
             new_nodes.append(TextNode(remaining_text, TextType.PLAIN))
 
+    
+    return new_nodes
+
 
 
 
@@ -86,6 +89,9 @@ def split_nodes_link(old_nodes):
 
         if remaining_text != "":
             new_nodes.append(TextNode(remaining_text, TextType.PLAIN))
+
+
+    return new_nodes
 
 
 
