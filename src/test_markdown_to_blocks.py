@@ -1,5 +1,69 @@
 import unittest
 from markdown_to_blocks import markdown_to_blocks
+from block_to_block_type import block_to_block_type, BlockType
+
+
+class test_block_to_block_type(unittest.TestCase):
+    def test_heading_block(self):
+        block = "# Heading"
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.HEADING
+        )
+
+
+    def test_code_block(self):
+        block = "```code block```"
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.CODE
+        )
+    
+
+    def test_quote_block(self):
+        block = "> quote block"
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.QUOTE
+        ) 
+
+
+    def test_unordered_list_block(self):
+        block = "- "
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.UNORDERED_LIST
+        )
+
+
+    def test_ordered_list_block(self):
+        block = "1. first\n2. second"
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.ORDERED_LIST
+        )
+
+
+    def test_paragraph_block(self):
+        block = "This is a regular paragraph"
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.PARAGRAPH
+        )
+        
+    
+    def test_badly_ordered_list(self):
+        block = "1. first\n3. second"
+        self.assertEqual(
+            block_to_block_type(block),
+            BlockType.PARAGRAPH
+        )
+
+
+    
+    
+    
+
 
 
 
