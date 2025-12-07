@@ -20,8 +20,7 @@ def block_to_block_type(block_text):
     Assumes leading/trailing whitespace is already stripped and
     lines are separated by '\n'.
     """
-    
-    lines = block_text.split("\n")
+    lines = [line.lstrip() for line in block_text.split("\n")]
     if block_text.startswith(("# ", "## ", "### ", "#### ", "##### ", "###### ")):
         return BlockType.HEADING
         
@@ -43,21 +42,21 @@ def block_to_block_type(block_text):
     if lines[0].startswith("- "):
         valid_unordered_list = True
         for line in lines:
-            if not line.startswith("- "):
+            if not line.startswith("- ") and line != "":
                 valid_unordered_list = False
                 break
         if valid_unordered_list:
             return BlockType.UNORDERED_LIST
     
 
-    if not block_text.startswith("1. "):
+    if not lines[0].startswith("1. "):
         return BlockType.PARAGRAPH
     
 
     valid = True
     for i, line in enumerate(lines, start=1):
         prefix = f"{i}. "
-        if not line.startswith(prefix):
+        if not line.startswith(prefix) and line != "":
             valid = False
             break
     if valid:
