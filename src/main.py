@@ -1,9 +1,16 @@
-from textnode import TextNode, TextType
+import os
+import shutil
+from copy_static import copy_files_recursive
 
 
 def main():
-    text_sample = TextNode("sup", TextType.BOLD)
-    print(text_sample)
-    
+    src = "./static"
+    dst = "./public"
 
-main()
+    if os.path.exists(dst):
+        shutil.rmtree(dst)
+    
+    copy_files_recursive(src, dst)
+
+if __name__ == "__main__":
+    main()
