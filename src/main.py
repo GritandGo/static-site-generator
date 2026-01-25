@@ -1,7 +1,7 @@
 import os
 import shutil
 from copy_static import copy_files_recursive
-from gen_content import generate_page
+from gen_content import generate_pages_recursive
 
 def main():
     src = "./static"
@@ -13,10 +13,10 @@ def main():
     copy_files_recursive(src, dst)
 
 
-    generate_page(
-        "content/index.md",
+    generate_pages_recursive(
+        "content",
         "template.html",
-        "public/index.html"
+        "public"
     )
 
     
